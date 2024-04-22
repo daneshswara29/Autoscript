@@ -1,9 +1,21 @@
 dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
-
+# BOT INFORMATION
+date=$(date -R | cut -d " " -f -5)
+export CHATID="702916090"
+export KEY="6782550545:AAEQJCiVZvTvu-2vvd5z4I4I4V7-W3lwIyM"
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+IP=$(wget -qO- ipinfo.io/ip);
+domain=$(cat /etc/xray/domain)
+date=$(date +"%Y-%m-%d")
+apt install wget -y
+apt install curl -y
+apt install ruby -y
+gem install lolcat -y
 # // Root Checking
 if [ "${EUID}" -ne 0 ]; then
-		echo -e "${EROR} Please Run This Script As Root User !"
-		exit 1
+                echo -e "${EROR} Please Run This Script As Root User !"
+                exit 1
 fi
 clear
 # // Exporting Language to UTF-8
@@ -44,6 +56,95 @@ export BOLD="\e[1m"
 export WARNING="${RED}\e[5m"
 export UNDERLINE="\e[4m"
 
+BURIQ () {
+    curl -sS https://raw.githubusercontent.com/daneshswara29/izin/main/ip > /root/tmp
+    data=( `cat /root/tmp | grep -E "^### " | awk '{print $2}'` )
+    for user in "${data[@]}"
+    do
+    exp=( `grep -E "^### $user" "/root/tmp" | awk '{print $3}'` )
+    d1=(`date -d "$exp" +%s`)
+    d2=(`date -d "$biji" +%s`)
+    exp2=$(( (d1 - d2) / 86400 ))
+    if [[ "$exp2" -le "0" ]]; then
+    echo $user > /etc/.$user.ini
+    else
+    rm -f  /etc/.$user.ini > /dev/null 2>&1
+    fi
+    done
+    rm -f  /root/tmp
+}
+# https://raw.githubusercontent.com/daneshswara29/izin/main/ip 
+MYIP=$(curl -sS ipv4.icanhazip.com)
+Name=$(curl -sS https://raw.githubusercontent.com/daneshswara29/izin/main/ip | grep $MYIP | awk '{print $2}')
+echo $Name > /usr/local/etc/.$Name.ini
+CekOne=$(cat /usr/local/etc/.$Name.ini)
+
+Bloman () {
+if [ -f "/etc/.$Name.ini" ]; then
+CekTwo=$(cat /etc/.$Name.ini)
+    if [ "$CekOne" = "$CekTwo" ]; then
+        res="Expired"
+    fi
+else
+res="Permission Accepted..."
+fi
+}
+
+PERMISSION () {
+    MYIP=$(curl -sS ipv4.icanhazip.com)
+    IZIN=$(curl -sS https://raw.githubusercontent.com/daneshswara29/izin/main/ip | awk '{print $4}' | grep $MYIP)
+    if [ "$MYIP" = "$IZIN" ]; then
+    Bloman
+    else
+    res="Permission Denied!"
+    fi
+    BURIQ
+}
+
+clear
+#System version number
+if [ "${EUID}" -ne 0 ]; then
+                echo "You need to run this script as root"
+                exit 1
+fi
+if [ "$(systemd-detect-virt)" == "openvz" ]; then
+                echo "OpenVZ is not supported"
+                exit 1
+fi
+
+localip=$(hostname -I | cut -d\  -f1)
+hst=( `hostname` )
+dart=$(cat /etc/hosts | grep -w `hostname` | awk '{print $2}')
+if [[ "$hst" != "$dart" ]]; then
+echo "$localip $(hostname)" >> /etc/hosts
+fi
+mkdir -p /etc/xray
+
+echo -e "${tyblue} Welcome To Script Premium Daneshswara${NC} "
+sleep 2
+echo -e "[ ${green}INFO${NC} ] Mempersiapkan Instal File"
+apt install git curl -y >/dev/null 2>&1
+echo -e "[ ${green}INFO${NC} ] Instal Script Sudah Siap"
+sleep 2
+echo -ne "[ ${green}INFO${NC} ] Check your permission : "
+
+PERMISSION
+if [ -f /home/needupdate ]; then
+red "Your script need to update first !"
+exit 0
+elif [ "$res" = "Permission Accepted..." ]; then
+green "Permission Accepted!"
+else
+red "Permission Denied!
+Please Buy AutoScript Premium
+WA: 082380835972
+Telegram: t.me/D_swara"
+rm setup.sh > /dev/null 2>&1
+sleep 10
+exit 0
+fi
+sleep 3
+
 # // Exporting URL Host
 export Server_URL="raw.githubusercontent.com/daneshswara29/Autoscript/main/test"
 export Server1_URL="raw.githubusercontent.com/daneshswara29/Autoscript/main/limit"
@@ -58,8 +159,8 @@ export VERSION="1.1"
 # // Exporint IP AddressInformation
 export IP=$( curl -s https://ipinfo.io/ip/ )
 
-# // Set Time To Kuala_Lumpur / GMT +8
-ln -fs /usr/share/zoneinfo/Asia/Kuala_Lumpur /etc/localtime
+# // Set Time To Jakarta / GMT +7
+ln -fs /usr/share/zoneinfo/Asia/jakarta /etc/localtime
 
 # // cek old script
 if [[ -r /etc/xray/domain ]]; then
@@ -371,13 +472,13 @@ echo "   - Trojan GO               : 443" | tee -a log-install.txt
 echo "   - Sodosok WS/GRPC         : 443" | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "   >>> Server Information & Other Features"  | tee -a log-install.txt
-echo "   - Timezone                : Asia/Kuala_Lumpur (GMT +8)"  | tee -a log-install.txt
+echo "   - Timezone                : Asia/jakarta (GMT +7)"  | tee -a log-install.txt
 echo "   - Fail2Ban                : [ON]"  | tee -a log-install.txt
 echo "   - Dflate                  : [ON]"  | tee -a log-install.txt
 echo "   - IPtables                : [ON]"  | tee -a log-install.txt
 echo "   - Auto-Reboot             : [ON]"  | tee -a log-install.txt
 echo "   - IPv6                    : [OFF]"  | tee -a log-install.txt
-echo "   - Autoreboot Off          : $aureb:00 $gg GMT + 8" | tee -a log-install.txt
+echo "   - Autoreboot Off          : $aureb:00 $gg GMT + 7" | tee -a log-install.txt
 echo "   - Autobackup Data" | tee -a log-install.txt
 echo "   - AutoKill Multi Login User" | tee -a log-install.txt
 echo "   - Auto Delete Expired Account" | tee -a log-install.txt
